@@ -6,63 +6,69 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RadioTest {
 
+    // ===== Тесты для сеттера станции =====
+
     @Test
     void shouldSetStation() {
         Radio radio = new Radio();
 
-        radio.setCurrentStationNumber(5);
+        radio.setCurrentStation(5);
 
-        assertEquals(5, radio.getCurrentStationNumber());
+        assertEquals(5, radio.getCurrentStation());
     }
 
     @Test
     void shouldNotSetStationBelowZero() {
         Radio radio = new Radio();
-        radio.setCurrentStationNumber(5);
+        radio.setCurrentStation(5);
 
-        radio.setCurrentStationNumber(-1);
+        radio.setCurrentStation(-1);
 
-        assertEquals(5, radio.getCurrentStationNumber());
+        assertEquals(5, radio.getCurrentStation());
     }
 
     @Test
     void shouldNotSetStationAboveNine() {
         Radio radio = new Radio();
-        radio.setCurrentStationNumber(5);
+        radio.setCurrentStation(5);
 
-        radio.setCurrentStationNumber(10);
+        radio.setCurrentStation(10);
 
-        assertEquals(5, radio.getCurrentStationNumber());
+        assertEquals(5, radio.getCurrentStation());
     }
+
+    // ===== Тесты для next() =====
 
     @Test
     void shouldSwitchToNextStation() {
         Radio radio = new Radio();
-        radio.setCurrentStationNumber(5);
+        radio.setCurrentStation(5);
 
         radio.next();
 
-        assertEquals(6, radio.getCurrentStationNumber());
+        assertEquals(6, radio.getCurrentStation());
     }
 
     @Test
     void shouldSwitchFromNineToZero() {
         Radio radio = new Radio();
-        radio.setCurrentStationNumber(9);
+        radio.setCurrentStation(9);
 
         radio.next();
 
-        assertEquals(0, radio.getCurrentStationNumber());
+        assertEquals(0, radio.getCurrentStation());
     }
+
+    // ===== Тесты для prev() =====
 
     @Test
     void shouldSwitchToPreviousStation() {
         Radio radio = new Radio();
-        radio.setCurrentStationNumber(5);
+        radio.setCurrentStation(5);
 
         radio.prev();
 
-        assertEquals(4, radio.getCurrentStationNumber());
+        assertEquals(4, radio.getCurrentStation());
     }
 
     @Test
@@ -71,8 +77,10 @@ public class RadioTest {
 
         radio.prev();
 
-        assertEquals(9, radio.getCurrentStationNumber());
+        assertEquals(9, radio.getCurrentStation());
     }
+
+    // ===== Тесты для громкости =====
 
     @Test
     void shouldIncreaseVolume() {
@@ -111,6 +119,38 @@ public class RadioTest {
         Radio radio = new Radio();
 
         radio.decreaseVolume();
+
+        assertEquals(0, radio.getCurrentVolume());
+    }
+
+    // ===== Тесты для конструкторов =====
+
+    @Test
+    void shouldCreateRadioWithDefaultConstructor() {
+        Radio radio = new Radio();
+
+        assertEquals(0, radio.getCurrentStation());
+        assertEquals(0, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldCreateRadioWithParameters() {
+        Radio radio = new Radio(5, 50);
+
+        assertEquals(5, radio.getCurrentStation());
+        assertEquals(50, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldNotCreateRadioWithInvalidStation() {
+        Radio radio = new Radio(-1, 50);
+
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldNotCreateRadioWithInvalidVolume() {
+        Radio radio = new Radio(5, 150);
 
         assertEquals(0, radio.getCurrentVolume());
     }

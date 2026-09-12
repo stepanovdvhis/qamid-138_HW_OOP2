@@ -1,32 +1,46 @@
 package org.example;
 
 public class Radio {
-    private int currentStationNumber;
+    private int currentStation;
     private int currentVolume;
 
-    public int getCurrentStationNumber() {
-        return currentStationNumber;
+    public Radio() {
+        this.currentStation = 0;
+        this.currentVolume = 0;
     }
 
-    public void setCurrentStationNumber(int currentStationNumber) {
-        if (currentStationNumber >= 0 && currentStationNumber <= 9) {
-            this.currentStationNumber = currentStationNumber;
+    public Radio(int currentStation, int currentVolume) {
+        if (currentStation >= 0 && currentStation <= 9) {
+            this.currentStation = currentStation;
+        }
+        if (currentVolume >= 0 && currentVolume <= 100) {
+            this.currentVolume = currentVolume;
+        }
+    }
+
+    public int getCurrentStation() {
+        return currentStation;
+    }
+
+    public void setCurrentStation(int currentStation) {
+        if (currentStation >= 0 && currentStation <= 9) {
+            this.currentStation = currentStation;
         }
     }
 
     public void next() {
-        if (currentStationNumber == 9) {
-            currentStationNumber = 0;
+        if (currentStation == 9) {
+            currentStation = 0;
         } else {
-            currentStationNumber = currentStationNumber + 1;
+            currentStation = currentStation + 1;
         }
     }
 
     public void prev() {
-        if (currentStationNumber == 0) {
-            currentStationNumber = 9;
+        if (currentStation == 0) {
+            currentStation = 9;
         } else {
-            currentStationNumber = currentStationNumber - 1;
+            currentStation = currentStation - 1;
         }
     }
 
