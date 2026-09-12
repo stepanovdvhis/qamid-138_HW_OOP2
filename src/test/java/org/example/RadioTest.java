@@ -6,6 +6,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RadioTest {
 
+    // ===== Тесты для конструктора по умолчанию =====
+
+    @Test
+    void shouldCreateRadioWithDefaultConstructor() {
+        Radio radio = new Radio();
+
+        assertEquals(0, radio.getCurrentStation());
+        assertEquals(0, radio.getCurrentVolume());
+        assertEquals(10, radio.getStationCount());
+    }
+
+    // ===== Тесты для конструктора с параметром =====
+
+    @Test
+    void shouldCreateRadioWithStationCount() {
+        Radio radio = new Radio(30);
+
+        assertEquals(30, radio.getStationCount());
+        assertEquals(0, radio.getCurrentStation());
+        assertEquals(0, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldCreateRadioWithInvalidStationCount() {
+        Radio radio = new Radio(-5);
+
+        assertEquals(10, radio.getStationCount());
+    }
+
+    @Test
+    void shouldCreateRadioWithZeroStationCount() {
+        Radio radio = new Radio(0);
+
+        assertEquals(10, radio.getStationCount());
+    }
+
     // ===== Тесты для сеттера станции =====
 
     @Test
@@ -28,11 +64,30 @@ public class RadioTest {
     }
 
     @Test
-    void shouldNotSetStationAboveNine() {
+    void shouldNotSetStationAboveMax() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
 
         radio.setCurrentStation(10);
+
+        assertEquals(5, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldSetStationWithCustomStationCount() {
+        Radio radio = new Radio(30);
+
+        radio.setCurrentStation(29);
+
+        assertEquals(29, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldNotSetStationAboveCustomMax() {
+        Radio radio = new Radio(30);
+        radio.setCurrentStation(5);
+
+        radio.setCurrentStation(30);
 
         assertEquals(5, radio.getCurrentStation());
     }
@@ -50,9 +105,19 @@ public class RadioTest {
     }
 
     @Test
-    void shouldSwitchFromNineToZero() {
+    void shouldSwitchFromMaxToZero() {
         Radio radio = new Radio();
         radio.setCurrentStation(9);
+
+        radio.next();
+
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldSwitchFromMaxToZeroWithCustomStationCount() {
+        Radio radio = new Radio(30);
+        radio.setCurrentStation(29);
 
         radio.next();
 
@@ -72,12 +137,21 @@ public class RadioTest {
     }
 
     @Test
-    void shouldSwitchFromZeroToNine() {
+    void shouldSwitchFromZeroToMax() {
         Radio radio = new Radio();
 
         radio.prev();
 
         assertEquals(9, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldSwitchFromZeroToMaxWithCustomStationCount() {
+        Radio radio = new Radio(30);
+
+        radio.prev();
+
+        assertEquals(29, radio.getCurrentStation());
     }
 
     // ===== Тесты для громкости =====
@@ -119,38 +193,6 @@ public class RadioTest {
         Radio radio = new Radio();
 
         radio.decreaseVolume();
-
-        assertEquals(0, radio.getCurrentVolume());
-    }
-
-    // ===== Тесты для конструкторов =====
-
-    @Test
-    void shouldCreateRadioWithDefaultConstructor() {
-        Radio radio = new Radio();
-
-        assertEquals(0, radio.getCurrentStation());
-        assertEquals(0, radio.getCurrentVolume());
-    }
-
-    @Test
-    void shouldCreateRadioWithParameters() {
-        Radio radio = new Radio(5, 50);
-
-        assertEquals(5, radio.getCurrentStation());
-        assertEquals(50, radio.getCurrentVolume());
-    }
-
-    @Test
-    void shouldNotCreateRadioWithInvalidStation() {
-        Radio radio = new Radio(-1, 50);
-
-        assertEquals(0, radio.getCurrentStation());
-    }
-
-    @Test
-    void shouldNotCreateRadioWithInvalidVolume() {
-        Radio radio = new Radio(5, 150);
 
         assertEquals(0, radio.getCurrentVolume());
     }
